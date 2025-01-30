@@ -49,8 +49,9 @@ with h5py.File(filename, 'r') as f:
         voltage_2_on = f['endstation/MagneticBottle/ch2_is_enabled'][()]
         voltage_3_on = f['endstation/MagneticBottle/ch3_is_enabled'][()]
         retardation_voltage = voltage_1*voltage_1_on + voltage_2*voltage_2_on - voltage_3*voltage_3_on
-    except Exception:
-        print("Cannot determine retardation voltage from files")
+    except Exception as e:
+        print("Cannot determine retardation voltage from files. Following exception occured:")
+        print(e)
         retardation_voltage = 0
 
 initial_params = lmfit.Parameters()
@@ -73,7 +74,6 @@ timezero = fit_params['T0'].value
 ke0 = fit_params['KE0'].value
 
 # %%% defining transformation functions here
-
 def ke_coordinate_func(tof):
     ke_coordinate = tof*np.nan  #  helps avoid unphysical values, and errors from square-rooting negative numbers
     ke_coordinate[tof>timezero] = 1/propconst / (tof[tof>timezero] - timezero+0.)**2 + ke0
