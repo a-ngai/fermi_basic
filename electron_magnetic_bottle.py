@@ -3,11 +3,12 @@
 This scripts loads magnetic bottle data. It does a few things:
     1. Separates foreground and background shots (determined by "BACKGROUND_PERIOD" in the .h5 files)
     2. Calibration for the electron magnetic bottle
+    3. Rebinning of data
 """
 
 # %%  Getting electron magnetic bottle data
-import numpy as np
 import h5py
+import numpy as np
 import matplotlib.pyplot as plt
 
 filename = "./test_data/Run_001/rawdata/Run_001_012345678.h5"
